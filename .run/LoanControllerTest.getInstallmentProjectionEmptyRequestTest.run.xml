@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="LoanControllerTest.getInstallmentProjectionEmptyRequestTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+    <module name="Loan Projection" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.interview.loan.projection.Controller.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <option name="PACKAGE_NAME" value="com.interview.loan.projection.Controller" />
+    <option name="MAIN_CLASS_NAME" value="com.interview.loan.projection.Controller.LoanControllerTest" />
+    <option name="METHOD_NAME" value="getInstallmentProjectionEmptyRequestTest" />
+    <option name="TEST_OBJECT" value="method" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
