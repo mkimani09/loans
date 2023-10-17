@@ -20,7 +20,7 @@ Api Endpoints
    1. Fee Projection
    Endpoint: http://localhost:8080/api/fee/projection
    Method: POST
-   Payload:
+   Payload: </br>
           {
            "duration": 13,
            "startDate":"01/06/2023",
@@ -29,9 +29,9 @@ Api Endpoints
            }
 
    3. Installment Projection
-   Endpoint: localhost:8080/api/installment/projection
+   Endpoint: http://localhost:8080/api/installment/projection
    Method: POST
-   Payload:
+   Payload: </br>
            {
              "duration": 3,
              "startDate":"01/06/2023",
