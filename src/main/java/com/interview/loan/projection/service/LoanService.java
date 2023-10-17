@@ -5,8 +5,6 @@ import com.interview.loan.projection.pojo.InstallmentProjectionRequest;
 
 import org.springframework.http.ResponseEntity;
 
-import javax.servlet.http.HttpServletRequest;
-
 public interface LoanService {
     ResponseEntity<Object> getFeeProjection(FeesProjectionRequest feesProjectionRequest);
 

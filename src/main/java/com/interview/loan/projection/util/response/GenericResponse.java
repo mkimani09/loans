@@ -40,10 +40,6 @@ public class GenericResponse implements Serializable {
         private Object data;
 
 
-//        public GenericResponseData {
-//            super();
-//        }
-
         public GenericResponseData(int status, String message, String msgDeveloper, Object data) {
             super();
             this.status = status;

@@ -3,6 +3,7 @@ package com.interview.loan.projection.service.impl;
 import com.interview.loan.projection.pojo.FeesProjectionRequest;
 import com.interview.loan.projection.pojo.InstallmentProjectionRequest;
 import com.interview.loan.projection.service.LoanService;
+import com.interview.loan.projection.util.Literals;
 import com.interview.loan.projection.util.enums.ResponseStatus;
 import com.interview.loan.projection.util.response.GenericResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,12 @@ public class LoanServiceImpl implements LoanService {
         StringBuilder stringBuilder = new StringBuilder();
         try {
             Map<String, Object> valid = validDuration(feesProjectionRequest.getDuration(), feesProjectionRequest.getFrequency());
-            if (!valid.get("status").equals(true)) {
+            if (!valid.get(Literals.STATUS).equals(true)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(GenericResponse.GenericResponseData.builder()
                                 .status(ResponseStatus.FAILED.getStatus())
-                                .message(String.valueOf(valid.get("message")))
-                                .msgDeveloper(String.valueOf(valid.get("msgDeveloper")))
+                                .message(String.valueOf(valid.get(Literals.MESSAGE)))
+                                .msgDeveloper(String.valueOf(valid.get(Literals.MSG_DEVELOPER)))
                                 .build());
             }
 
@@ -67,6 +68,12 @@ public class LoanServiceImpl implements LoanService {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(GenericResponse.GenericResponseData.builder()
+                            .status(ResponseStatus.FAILED.getStatus())
+                            .message("Something went wrong, try again later.")
+                            .msgDeveloper(e.getMessage())
+                            .build());
         }
         Map<String, Object> resp = new HashMap<>();
         resp.put("data", stringBuilder);
@@ -83,12 +90,12 @@ public class LoanServiceImpl implements LoanService {
         StringBuilder stringBuilder = new StringBuilder();
         try {
             Map<String, Object> valid = validDuration(installmentProjectionRequest.getDuration(), installmentProjectionRequest.getFrequency());
-            if (!valid.get("status").equals(true)) {
+            if (!valid.get(Literals.STATUS).equals(true)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(GenericResponse.GenericResponseData.builder()
                                 .status(ResponseStatus.FAILED.getStatus())
-                                .message(String.valueOf(valid.get("message")))
-                                .msgDeveloper(String.valueOf(valid.get("msgDeveloper")))
+                                .message(String.valueOf(valid.get(Literals.MESSAGE)))
+                                .msgDeveloper(String.valueOf(valid.get(Literals.MSG_DEVELOPER)))
                                 .build());
             }
 
@@ -105,7 +112,7 @@ public class LoanServiceImpl implements LoanService {
             Double maxFees = loanConfig.getMaxFees();
 
             int periodicFeesCount = loanConfig.getPeriodicFeesCount();
-            Double installment  = installmentProjectionRequest.getPrincipalAmount() /installmentProjectionRequest.getDuration();
+            Double installment = installmentProjectionRequest.getPrincipalAmount() / installmentProjectionRequest.getDuration();
 
             int x = 1;
 
@@ -114,10 +121,10 @@ public class LoanServiceImpl implements LoanService {
                 newDate = dateAdd(frequency, newDate);
 
                 if (x == periodicFeesCount) {
-                    chargedFees =  Math.min(fees, maxFees);
+                    chargedFees = Math.min(fees, maxFees);
                     x = 0;
                 }
-                Double totalAmount = Double.sum(Double.sum(installment,interestAmt),chargedFees);
+                Double totalAmount = Double.sum(Double.sum(installment, interestAmt), chargedFees);
                 stringBuilder.append(formatter.format(newDate) + " => " + Math.round(totalAmount) + " ");
 
                 x++;
@@ -125,6 +132,12 @@ public class LoanServiceImpl implements LoanService {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(GenericResponse.GenericResponseData.builder()
+                            .status(ResponseStatus.FAILED.getStatus())
+                            .message("Something went wrong, try again later.")
+                            .msgDeveloper(e.getMessage())
+                            .build());
         }
         Map<String, Object> resp = new HashMap<>();
         resp.put("data", stringBuilder);
@@ -135,25 +148,20 @@ public class LoanServiceImpl implements LoanService {
 
     private Map<String, Object> validDuration(Integer duration, String frequency) {
         Map<String, Object> resp = new HashMap<>();
-        switch (frequency) {
-            case "w":
-                if (duration > 4) {
-                    resp.put("status", false);
-                    resp.put("message", "For Weekly frequency duration cannot be greater than 4.");
-                    resp.put("msgDeveloper", "Validation error: For Weekly frequency duration cannot be greater than 4.");
-                    return resp;
-                }
-                break;
-            case "m":
-                if (duration > 12) {
-                    resp.put("status", false);
-                    resp.put("message", "For Monthly frequency duration cannot be greater than 12.");
-                    resp.put("msgDeveloper", "Validation error: For Weekly frequency duration cannot be greater than 12.");
-                    return resp;
-                }
-                break;
+
+        if (frequency.equals("w") && duration > 4) {
+            resp.put(Literals.STATUS, false);
+            resp.put(Literals.MESSAGE, "For Weekly frequency duration cannot be greater than 4.");
+            resp.put(Literals.MSG_DEVELOPER, "Validation error: For Weekly frequency duration cannot be greater than 4.");
+            return resp;
+        } else if (frequency.equals("m") && duration > 12) {
+            resp.put(Literals.STATUS, false);
+            resp.put(Literals.MESSAGE, "For Monthly frequency duration cannot be greater than 12.");
+            resp.put(Literals.MSG_DEVELOPER, "Validation error: For Weekly frequency duration cannot be greater than 12.");
+            return resp;
         }
-        resp.put("status", true);
+
+        resp.put(Literals.STATUS, true);
         return resp;
     }
 
