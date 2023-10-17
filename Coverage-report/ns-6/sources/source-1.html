@@ -1,0 +1,132 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ErrorsUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.interview.loan.projection.util.exceptions</a>
+</div>
+
+<h1>Coverage Summary for Class: ErrorsUtil (com.interview.loan.projection.util.exceptions)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ErrorsUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.interview.loan.projection.util.exceptions;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;import com.interview.loan.projection.util.response.GenericResponse;
+<i class="no-highlight">6</i>&nbsp;import org.springframework.validation.Errors;
+<i class="no-highlight">7</i>&nbsp;import org.springframework.validation.FieldError;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;import java.util.List;
+<i class="no-highlight">10</i>&nbsp;import java.util.StringJoiner;
+<i class="no-highlight">11</i>&nbsp;
+<b class="fc"><i class="no-highlight">12</i>&nbsp;public class ErrorsUtil {</b>
+<b class="fc"><i class="no-highlight">13</i>&nbsp;    private static ErrorsUtil instance = null;</b>
+<i class="no-highlight">14</i>&nbsp;    public static ErrorsUtil getInstance() {
+<b class="fc"><i class="no-highlight">15</i>&nbsp;        if (instance == null) {</b>
+<b class="fc"><i class="no-highlight">16</i>&nbsp;            instance = new ErrorsUtil();</b>
+<i class="no-highlight">17</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">18</i>&nbsp;        return instance;</b>
+<i class="no-highlight">19</i>&nbsp;    }
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;    public GenericResponse notifyErrors(Errors errors) {
+<b class="fc"><i class="no-highlight">22</i>&nbsp;        StringJoiner sj = new StringJoiner(&quot;;&quot;, &quot;&quot;, &quot;&quot;);</b>
+<b class="fc"><i class="no-highlight">23</i>&nbsp;        List&lt;FieldError&gt; ls = errors.getFieldErrors();</b>
+<b class="fc"><i class="no-highlight">24</i>&nbsp;        ls.stream().forEach(fieldError -&gt; sj.add(&quot;Field &quot; + fieldError.getField() + &quot; &quot; + fieldError.getDefaultMessage()));</b>
+<b class="fc"><i class="no-highlight">25</i>&nbsp;        return new GenericResponse(-1, &quot;Bad Request - &quot; + sj, sj.toString(), new Object());</b>
+<i class="no-highlight">26</i>&nbsp;    }
+<i class="no-highlight">27</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-17 10:04</div>
+</div>
+</body>
+</html>

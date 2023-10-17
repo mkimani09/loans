@@ -32,7 +32,7 @@ public class LoanServiceImpl implements LoanService {
         try {
             Map<String, Object> valid = validDuration(feesProjectionRequest.getDuration(), feesProjectionRequest.getFrequency());
             if (!valid.get("status").equals(true)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(GenericResponse.GenericResponseData.builder()
                                 .status(ResponseStatus.FAILED.getStatus())
                                 .message(String.valueOf(valid.get("message")))
@@ -56,9 +56,9 @@ public class LoanServiceImpl implements LoanService {
 
             int x = 1;
             for (int i = 0; i < feesProjectionRequest.getDuration(); i++) {
-                stringBuilder.append(formatter.format(newDate) + " => " + interestAmt + "  ");
+                stringBuilder.append(formatter.format(newDate) + " => " + Math.round(interestAmt) + " ");
                 if (x == periodicFeesCount) {
-                    stringBuilder.append(formatter.format(newDate) + " => " + Math.min(fees, maxFees) + " ");
+                    stringBuilder.append(formatter.format(newDate) + " => " + Math.round(Math.min(fees, maxFees)) + " ");
                     x = 0;
                 }
                 newDate = dateAdd(frequency, newDate);
@@ -84,7 +84,7 @@ public class LoanServiceImpl implements LoanService {
         try {
             Map<String, Object> valid = validDuration(installmentProjectionRequest.getDuration(), installmentProjectionRequest.getFrequency());
             if (!valid.get("status").equals(true)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(GenericResponse.GenericResponseData.builder()
                                 .status(ResponseStatus.FAILED.getStatus())
                                 .message(String.valueOf(valid.get("message")))
@@ -118,7 +118,7 @@ public class LoanServiceImpl implements LoanService {
                     x = 0;
                 }
                 Double totalAmount = Double.sum(Double.sum(installment,interestAmt),chargedFees);
-                stringBuilder.append(formatter.format(newDate) + " => " + Math.round(totalAmount) + "  ");
+                stringBuilder.append(formatter.format(newDate) + " => " + Math.round(totalAmount) + " ");
 
                 x++;
             }
@@ -137,18 +137,18 @@ public class LoanServiceImpl implements LoanService {
         Map<String, Object> resp = new HashMap<>();
         switch (frequency) {
             case "w":
-                if (duration > 7) {
+                if (duration > 4) {
                     resp.put("status", false);
-                    resp.put("message", "For Weekly frequency duration cannot be greater than 7.");
-                    resp.put("msgDeveloper", "Validation error: For Weekly frequency duration cannot be greater than 7.");
+                    resp.put("message", "For Weekly frequency duration cannot be greater than 4.");
+                    resp.put("msgDeveloper", "Validation error: For Weekly frequency duration cannot be greater than 4.");
                     return resp;
                 }
                 break;
             case "m":
-                if (duration > 30) {
+                if (duration > 12) {
                     resp.put("status", false);
-                    resp.put("message", "For Monthly frequency duration cannot be greater than 30.");
-                    resp.put("msgDeveloper", "Validation error: For Weekly frequency duration cannot be greater than 30.");
+                    resp.put("message", "For Monthly frequency duration cannot be greater than 12.");
+                    resp.put("msgDeveloper", "Validation error: For Weekly frequency duration cannot be greater than 12.");
                     return resp;
                 }
                 break;
