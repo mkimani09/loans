@@ -17,9 +17,9 @@ Code analysis
 1. This code has been anylyzed by Sonarlint a SonarQube library and passed.
 
 Api Endpoints
-   1. Fee Projection
-   Endpoint: http://localhost:8080/api/fee/projection
-   Method: POST
+   1. Fee Projection </br>
+   Endpoint: http://localhost:8080/api/fee/projection </br>
+   Method: POST </br>
    Payload: </br>
           {
            "duration": 13,
@@ -28,9 +28,9 @@ Api Endpoints
            "frequency":"m"
            }
 
-   3. Installment Projection
-   Endpoint: http://localhost:8080/api/installment/projection
-   Method: POST
+   3. Installment Projection </br>
+   Endpoint: http://localhost:8080/api/installment/projection </br>
+   Method: POST </br>
    Payload: </br>
            {
              "duration": 3,
