@@ -22,7 +22,7 @@ Api Endpoints
    Method: POST </br>
    Payload: </br>
           {
-           "duration": 13,
+           "duration": 6,
            "startDate":"01/06/2023",
             "principalAmount":3000,
            "frequency":"m"
